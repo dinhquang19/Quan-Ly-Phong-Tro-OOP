@@ -38,4 +38,16 @@ public class Phong {
 
     @Column(name = "mo_ta", length = 255)
     private String moTa;
+
+    @Column(name = "anh_thumbnail", length = 255)
+    private String anhThumbnail;
+
+    @Column(name = "anh_phong_khach", length = 255)
+    private String anhPhongKhach;
+
+    @Column(name = "anh_phong_ngu", length = 255)
+    private String anhPhongNgu;
+
+    @Column(name = "anh_nha_ve_sinh", length = 255)
+    private String anhNhaVeSinh;
 }

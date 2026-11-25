@@ -21,6 +21,11 @@ public class PhongCongKhaiResponse {
 
     private String moTa;
 
+    private String anhThumbnail;
+    private String anhPhongKhach;
+    private String anhPhongNgu;
+    private String anhNhaVeSinh;
+
     private List<String> danhSachThietBi = new ArrayList<>();
 
     private boolean coTheThueNgay;

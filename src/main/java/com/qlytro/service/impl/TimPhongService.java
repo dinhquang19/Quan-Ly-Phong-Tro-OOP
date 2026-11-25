@@ -228,6 +228,10 @@ public class TimPhongService {
         r.setDienTich(phong.getDienTich());
         r.setGiaThue(phong.getGiaThueTheoMacDinh());
         r.setMoTa(phong.getMoTa());
+        r.setAnhThumbnail(phong.getAnhThumbnail());
+        r.setAnhPhongKhach(phong.getAnhPhongKhach());
+        r.setAnhPhongNgu(phong.getAnhPhongNgu());
+        r.setAnhNhaVeSinh(phong.getAnhNhaVeSinh());
 
         r.setDanhSachThietBi(
                 thietBi.stream()

@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -43,6 +44,7 @@ public class PhongService implements BaseService<PhongResponse, Integer> {
     private final PhongThietBiRepository phongThietBiRepository;
     private final com.qlytro.repository.ChiSoDienNuocRepository chiSoRepository;
     private final com.qlytro.repository.SuCoRepository suCoRepository;
+    private final FileStorageService fileStorageService;
 
     public PhongService(PhongRepository phongRepository,
                         ToaNhaRepository toaNhaRepository,
@@ -50,7 +52,8 @@ public class PhongService implements BaseService<PhongResponse, Integer> {
                         HopDongKhachThueRepository hdktRepository,
                         PhongThietBiRepository phongThietBiRepository,
                         com.qlytro.repository.ChiSoDienNuocRepository chiSoRepository,
-                        com.qlytro.repository.SuCoRepository suCoRepository) {
+                        com.qlytro.repository.SuCoRepository suCoRepository,
+                        FileStorageService fileStorageService) {
         this.phongRepository = phongRepository;
         this.toaNhaRepository = toaNhaRepository;
         this.hopDongRepository = hopDongRepository;
@@ -58,6 +61,7 @@ public class PhongService implements BaseService<PhongResponse, Integer> {
         this.phongThietBiRepository = phongThietBiRepository;
         this.chiSoRepository = chiSoRepository;
         this.suCoRepository = suCoRepository;
+        this.fileStorageService = fileStorageService;
     }
 
     @Override
@@ -88,6 +92,7 @@ public class PhongService implements BaseService<PhongResponse, Integer> {
                 .orElseThrow(() -> new ResourceNotFoundException("Tòa nhà", request.getToaNhaId()));
         Phong phong = new Phong();
         mapFromRequestForCreate(request, phong, toaNha);
+        mapImages(request, phong);
         return toResponse(phongRepository.save(phong));
     }
 
@@ -102,6 +107,7 @@ public class PhongService implements BaseService<PhongResponse, Integer> {
         ToaNha toaNha = toaNhaRepository.findById(request.getToaNhaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Tòa nhà", request.getToaNhaId()));
         mapFromRequestForUpdate(request, phong, toaNha);
+        mapImages(request, phong);
         return toResponse(phongRepository.save(phong));
     }
 
@@ -160,6 +166,17 @@ public class PhongService implements BaseService<PhongResponse, Integer> {
         phong.setMoTa(request.getMoTa());
     }
 
+    private void mapImages(PhongRequest request, Phong phong) {
+        phong.setAnhThumbnail(storeIfPresent(request.getAnhThumbnail(), phong.getAnhThumbnail()));
+        phong.setAnhPhongKhach(storeIfPresent(request.getAnhPhongKhach(), phong.getAnhPhongKhach()));
+        phong.setAnhPhongNgu(storeIfPresent(request.getAnhPhongNgu(), phong.getAnhPhongNgu()));
+        phong.setAnhNhaVeSinh(storeIfPresent(request.getAnhNhaVeSinh(), phong.getAnhNhaVeSinh()));
+    }
+
+    private String storeIfPresent(MultipartFile file, String currentPath) {
+        return file != null && !file.isEmpty() ? fileStorageService.storeRoomImage(file) : currentPath;
+    }
+
     /**
      * Dung cho UPDATE: KHONG bao gio ghi de trang_thai tu request.
      * Trang thai phong chi duoc thay doi boi nghiep vu hop dong
@@ -186,6 +203,10 @@ public class PhongService implements BaseService<PhongResponse, Integer> {
         r.setTrangThai(entity.getTrangThai());
         r.setTrangThaiLabel(entity.getTrangThai().getLabel());
         r.setMoTa(entity.getMoTa());
+        r.setAnhThumbnail(entity.getAnhThumbnail());
+        r.setAnhPhongKhach(entity.getAnhPhongKhach());
+        r.setAnhPhongNgu(entity.getAnhPhongNgu());
+        r.setAnhNhaVeSinh(entity.getAnhNhaVeSinh());
         // Load danh sach thiet bi
         r.setDanhSachThietBi(
             phongThietBiRepository.findByPhong_Id(entity.getId())

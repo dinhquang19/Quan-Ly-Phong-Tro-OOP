@@ -41,6 +41,20 @@
             color: #64748b;
         }
 
+        .room-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .room-photo img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
         .room-price {
             color: #2563eb;
             font-size: 32px;
@@ -137,9 +151,24 @@
 
             <div class="card-box mb-4">
 
-                <!-- BIỂU TƯỢNG PHÒNG -->
                 <div class="room-cover mb-4">
-                    <i class="bi bi-house-door"></i>
+                    <img th:if="${phong.anhThumbnail != null}" th:src="${phong.anhThumbnail}" th:alt="|Ảnh phòng ${phong.soPhong}|">
+                    <i th:unless="${phong.anhThumbnail != null}" class="bi bi-house-door"></i>
+                </div>
+
+                <div class="row g-3 mb-4" th:if="${phong.anhPhongKhach != null or phong.anhPhongNgu != null or phong.anhNhaVeSinh != null}">
+                    <div class="col-md-4 room-photo" th:if="${phong.anhPhongKhach != null}">
+                        <img th:src="${phong.anhPhongKhach}" alt="Phòng khách">
+                        <div class="small text-muted mt-1">Phòng khách</div>
+                    </div>
+                    <div class="col-md-4 room-photo" th:if="${phong.anhPhongNgu != null}">
+                        <img th:src="${phong.anhPhongNgu}" alt="Phòng ngủ">
+                        <div class="small text-muted mt-1">Phòng ngủ</div>
+                    </div>
+                    <div class="col-md-4 room-photo" th:if="${phong.anhNhaVeSinh != null}">
+                        <img th:src="${phong.anhNhaVeSinh}" alt="Nhà vệ sinh">
+                        <div class="small text-muted mt-1">Nhà vệ sinh</div>
+                    </div>
                 </div>
 
                 <!-- TRẠNG THÁI -->

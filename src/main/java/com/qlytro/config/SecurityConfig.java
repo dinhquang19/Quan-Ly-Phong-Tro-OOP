@@ -51,7 +51,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/css/**",
                                 "/js/**",
-                                "/images/**"
+                                "/images/**",
+                                "/room-images/**"
                         ).permitAll()
 
                         // Login page & error pages

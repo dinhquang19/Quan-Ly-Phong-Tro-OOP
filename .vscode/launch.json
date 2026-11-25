@@ -9,7 +9,8 @@
             "name": "QuanLyPhongTroApplication",
             "request": "launch",
             "mainClass": "com.qlytro.QuanLyPhongTroApplication",
-            "projectName": "quan-ly-phong-tro"
+            "projectName": "quan-ly-phong-tro",
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "type": "chrome",

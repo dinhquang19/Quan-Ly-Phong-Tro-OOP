@@ -3,6 +3,7 @@ package com.qlytro.dto.request;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.math.BigDecimal;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class PhongRequest {
@@ -26,4 +27,9 @@ public class PhongRequest {
 
     @Size(max = 255)
     private String moTa;
+
+    private MultipartFile anhThumbnail;
+    private MultipartFile anhPhongKhach;
+    private MultipartFile anhPhongNgu;
+    private MultipartFile anhNhaVeSinh;
 }

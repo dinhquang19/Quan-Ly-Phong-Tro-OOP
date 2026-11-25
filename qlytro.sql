@@ -70,6 +70,10 @@ CREATE TABLE phong (
     trang_thai          TINYINT NOT NULL DEFAULT 0
                         COMMENT '0=TRONG, 1=DANG_THUE, 2=NGUNG_SU_DUNG',
     mo_ta               VARCHAR(255) NULL,
+    anh_thumbnail       VARCHAR(255) NULL,
+    anh_phong_khach     VARCHAR(255) NULL,
+    anh_phong_ngu       VARCHAR(255) NULL,
+    anh_nha_ve_sinh     VARCHAR(255) NULL,
     CONSTRAINT fk_phong_toa_nha FOREIGN KEY (toa_nha_id)
         REFERENCES toa_nha(id),
     CONSTRAINT uq_phong_so_phong UNIQUE (toa_nha_id, so_phong)
@@ -254,6 +258,7 @@ CREATE TABLE boi_thuong_thiet_hai (
 CREATE TABLE hoa_don (
     id                  INT AUTO_INCREMENT PRIMARY KEY,
     hop_dong_id         INT NOT NULL,
+    nguoi_dai_dien_id   INT NULL COMMENT 'Nguoi dai dien tai thoi diem lap hoa don',
     thang_nam           VARCHAR(7) NOT NULL COMMENT 'VD: 2026-09',
     tong_tien           DECIMAL(12,2) NOT NULL,
     trang_thai          TINYINT NOT NULL DEFAULT 0
@@ -262,6 +267,7 @@ CREATE TABLE hoa_don (
     ngay_tao            DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ngay_thanh_toan     DATETIME NULL,
     CONSTRAINT fk_hoa_don_hop_dong FOREIGN KEY (hop_dong_id) REFERENCES hop_dong(id),
+    CONSTRAINT fk_hoa_don_nguoi_dai_dien FOREIGN KEY (nguoi_dai_dien_id) REFERENCES khach_thue(id),
     CONSTRAINT uq_hoa_don UNIQUE (hop_dong_id, thang_nam)
 ) ENGINE=InnoDB;
 

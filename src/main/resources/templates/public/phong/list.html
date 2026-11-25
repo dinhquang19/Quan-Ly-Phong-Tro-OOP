@@ -59,6 +59,12 @@
             font-size: 60px;
         }
 
+        .room-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .room-price {
             color: #2563eb;
             font-size: 22px;
@@ -369,9 +375,9 @@
 
             <div class="room-card">
 
-                <!-- Biểu tượng thay cho ảnh phòng -->
                 <div class="room-cover">
-                    <i class="bi bi-house-door"></i>
+                    <img th:if="${phong.anhThumbnail != null}" th:src="${phong.anhThumbnail}" th:alt="|Phòng ${phong.soPhong}|">
+                    <i th:unless="${phong.anhThumbnail != null}" class="bi bi-house-door"></i>
                 </div>
 
                 <div class="p-3">

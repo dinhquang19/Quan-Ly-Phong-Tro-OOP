@@ -31,6 +31,14 @@ public class FileStorageService {
      * Trả về đường dẫn truy cập web (ví dụ: "/uploads/abc-xyz.jpg").
      */
     public String storeFile(MultipartFile file) {
+        return storeFile(file, null);
+    }
+
+    public String storeRoomImage(MultipartFile file) {
+        return storeFile(file, "rooms");
+    }
+
+    private String storeFile(MultipartFile file, String subdirectory) {
         if (file == null || file.isEmpty()) {
             throw new BusinessException("Vui lòng chọn file tải lên.");
         }
@@ -54,13 +62,15 @@ public class FileStorageService {
         validateImageMagicBytes(file, extension.toLowerCase(Locale.ROOT));
 
         try {
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
+            Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+            Path storagePath = subdirectory == null ? uploadPath : uploadPath.resolve(subdirectory).normalize();
+            if (!storagePath.startsWith(uploadPath)) {
+                throw new BusinessException("Invalid upload path.");
             }
+            Files.createDirectories(storagePath);
 
             String newFilename = UUID.randomUUID() + "." + extension.toLowerCase(Locale.ROOT);
-            Path targetLocation = uploadPath.resolve(newFilename).normalize();
+            Path targetLocation = storagePath.resolve(newFilename).normalize();
 
             // Đảm bảo không bị path traversal
             if (!targetLocation.startsWith(uploadPath.toAbsolutePath().normalize()) &&
@@ -72,7 +82,7 @@ public class FileStorageService {
                 Files.copy(inputStream, targetLocation, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            return "/uploads/" + newFilename;
+            return subdirectory == null ? "/uploads/" + newFilename : "/room-images/" + newFilename;
         } catch (IOException ex) {
             throw new BusinessException("Không thể lưu file: " + ex.getMessage());
         }
@@ -91,6 +101,8 @@ public class FileStorageService {
                 filename = filename.substring("/uploads/".length());
             } else if (filename.startsWith("uploads/")) {
                 filename = filename.substring("uploads/".length());
+            } else if (filename.startsWith("/room-images/")) {
+                filename = "rooms/" + filename.substring("/room-images/".length());
             }
             Path path = Paths.get(uploadDir).resolve(filename).normalize();
             Files.deleteIfExists(path);

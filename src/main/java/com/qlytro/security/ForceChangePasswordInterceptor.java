@@ -31,7 +31,8 @@ public class ForceChangePasswordInterceptor implements HandlerInterceptor {
             // Cho phep truy cap cac trang xu ly doi mat khau, dang xuat va tai nguyen tinh
             if (uri.startsWith("/doi-mat-khau") || uri.startsWith("/logout")
                     || uri.startsWith("/css/") || uri.startsWith("/js/")
-                    || uri.startsWith("/images/") || uri.startsWith("/uploads/")) {
+                    || uri.startsWith("/images/") || uri.startsWith("/uploads/")
+                    || uri.startsWith("/room-images/")) {
                 return true;
             }
 

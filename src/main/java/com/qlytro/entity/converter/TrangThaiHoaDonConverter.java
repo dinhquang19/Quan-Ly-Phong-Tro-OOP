@@ -5,15 +5,15 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class TrangThaiHoaDonConverter implements AttributeConverter<TrangThaiHoaDon, Integer> {
+public class TrangThaiHoaDonConverter implements AttributeConverter<TrangThaiHoaDon, Byte> {
 
     @Override
-    public Integer convertToDatabaseColumn(TrangThaiHoaDon attribute) {
-        return attribute == null ? null : attribute.getValue();
+    public Byte convertToDatabaseColumn(TrangThaiHoaDon attribute) {
+        return attribute == null ? null : (byte) attribute.getValue();
     }
 
     @Override
-    public TrangThaiHoaDon convertToEntityAttribute(Integer dbData) {
-        return dbData == null ? null : TrangThaiHoaDon.fromValue(dbData);
+    public TrangThaiHoaDon convertToEntityAttribute(Byte dbData) {
+        return dbData == null ? null : TrangThaiHoaDon.fromValue(dbData.intValue());
     }
 }

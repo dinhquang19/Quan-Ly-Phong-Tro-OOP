@@ -17,6 +17,10 @@ public class PhongResponse {
     private TrangThaiPhong trangThai;
     private String trangThaiLabel;
     private String moTa;
+    private String anhThumbnail;
+    private String anhPhongKhach;
+    private String anhPhongNgu;
+    private String anhNhaVeSinh;
     // Danh sach thiet bi dang co trong phong (load khi can chi tiet)
     private List<ThietBi> danhSachThietBi;
 }

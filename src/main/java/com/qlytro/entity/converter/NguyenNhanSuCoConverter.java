@@ -6,15 +6,15 @@ import jakarta.persistence.Converter;
 
 /** Cot nguyen_nhan la NULLABLE — xu ly null ca 2 chieu. */
 @Converter(autoApply = true)
-public class NguyenNhanSuCoConverter implements AttributeConverter<NguyenNhanSuCo, Integer> {
+public class NguyenNhanSuCoConverter implements AttributeConverter<NguyenNhanSuCo, Byte> {
 
     @Override
-    public Integer convertToDatabaseColumn(NguyenNhanSuCo attribute) {
-        return attribute == null ? null : attribute.getValue();
+    public Byte convertToDatabaseColumn(NguyenNhanSuCo attribute) {
+        return attribute == null ? null : (byte) attribute.getValue();
     }
 
     @Override
-    public NguyenNhanSuCo convertToEntityAttribute(Integer dbData) {
-        return dbData == null ? null : NguyenNhanSuCo.fromValue(dbData);
+    public NguyenNhanSuCo convertToEntityAttribute(Byte dbData) {
+        return dbData == null ? null : NguyenNhanSuCo.fromValue(dbData.intValue());
     }
 }

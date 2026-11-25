@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 /**
  * Khoi tao du lieu mac dinh khi ung dung chay lan dau.
- * - Tai khoan chu tro mac dinh: admin / admin@123
+ * - Tai khoan chu tro mac dinh: admin / mat khau tu cau hinh local
  * - Bang gia dien nuoc mac dinh neu chua co.
  */
 @Configuration
@@ -24,7 +24,7 @@ public class DataInitializer {
 
     private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
 
-    @org.springframework.beans.factory.annotation.Value("${app.admin.initial-password:admin@123}")
+    @org.springframework.beans.factory.annotation.Value("${app.admin.initial-password}")
     private String adminPassword;
 
     @Bean
